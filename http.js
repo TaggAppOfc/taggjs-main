@@ -1,18 +1,23 @@
-import axios from "axios";
-import {GetAPI} from './env';
+const axios = require('axios').default;
+const Env = require('./env');
 
-export function Get(path = '/') {
+function Get(path = '/') {
     const Caller = axios.create({
-        baseURL: GetAPI(),
+        baseURL: Env.GetAPI(),
     });
 
     return Caller.get(path);
 }
 
-export function Post(path = '/', data ={}) {
+function Post(path = '/', data ={}) {
     const Caller = axios.create({
-        baseURL: GetAPI(),
+        baseURL: Env.GetAPI(),
     });
 
     return Caller.post(path, data);
+}
+
+module.exports = {
+    Get,
+    Post
 }

@@ -1,6 +1,6 @@
-import {Get} from './http';
+const {Get} = require('./http');
 
-export function LoginUser(username, password) {
+function LoginUser(username, password) {
     return new Promise((resolve, reject) => {
         Get("/auth/login").then((response) => {
             const response = {
@@ -13,4 +13,8 @@ export function LoginUser(username, password) {
             reject(err);
         })
     }) 
+}
+
+module.exports = {
+    LoginUser
 }

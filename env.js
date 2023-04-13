@@ -1,9 +1,14 @@
 let CURRENT_API = 'https://api.tagg.chat/v1';
 
-export function ChangeAPI(url = '') {
+function ChangeAPI(url = '') {
     CURRENT_API = url;
 }
 
-export function GetAPI() {
+function GetAPI() {
     return CURRENT_API;
+}
+
+module.exports = {
+    ChangeAPI,
+    GetAPI
 }
