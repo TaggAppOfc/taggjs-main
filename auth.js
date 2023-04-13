@@ -1,8 +1,8 @@
-const {Get} = require('./http');
+import HTTP from './http.js';
 
 function LoginUser(username, password) {
     return new Promise((resolve, reject) => {
-        Get("/auth/login").then((response) => {
+        HTTP.Get("/auth/login").then((response) => {
             resolve({
                 statusCode: response.status,
                 token: response.data.token
@@ -13,6 +13,8 @@ function LoginUser(username, password) {
     }) 
 }
 
-module.exports = {
-    LoginUser
+const Auth = {
+    LoginUser,
 }
+
+export default Auth;

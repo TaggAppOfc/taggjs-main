@@ -1,5 +1,5 @@
-const axios = require('axios');
-const Env = require('./env');
+import axios from 'axios';
+import Env from './env.js';
 
 function Get(path = '/') {
     console.log(axios);
@@ -19,7 +19,9 @@ function Post(path = '/', data ={}) {
     return Caller.post(path, data);
 }
 
-module.exports = {
+const HTTP = {
     Get,
     Post
 }
+
+export default HTTP;

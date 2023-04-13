@@ -8,7 +8,9 @@ function GetAPI() {
     return CURRENT_API;
 }
 
-module.exports = {
+const Env = {
     ChangeAPI,
     GetAPI
 }
+
+export default Env;
