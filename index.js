@@ -7,9 +7,11 @@ class Client {
     }
 }
 
-export default Tagg = {
+const Tagg = {
     Client,
     API: {
         Login: Auth.LoginUser
     }
 }
+
+export default Tagg;
