@@ -2,6 +2,8 @@ const axios = require('axios');
 const Env = require('./env');
 
 function Get(path = '/') {
+    console.log(axios);
+
     const Caller = axios.create({
         baseURL: Env.GetAPI(),
     });
