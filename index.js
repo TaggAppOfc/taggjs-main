@@ -1,5 +1,4 @@
-const Auth = require('./auth');
-const Env = require('./env');
+import {LoginUser} from './auth';
 
 class Client {
     login(token = '') {
@@ -10,7 +9,7 @@ class Client {
 const Tagg = {
     Client,
     API: {
-        Login: Auth.LoginUser
+        Login: LoginUser
     }
 }
 

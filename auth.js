@@ -1,4 +1,4 @@
-const {Get} = require('./http');
+import {Get} from './http';
 
 export function LoginUser(username, password) {
     return new Promise((resolve, reject) => {
