@@ -1,8 +1,8 @@
 import HTTP from './http.js';
 
-function LoginUser(username, password) {
+function LoginUser(email, password) {
     return new Promise((resolve, reject) => {
-        HTTP.Post("/auth/login", {username, password}).then((response) => {
+        HTTP.Post("/auth/login", {email, password}).then((response) => {
             resolve({
                 statusCode: response.status,
                 token: response.data.token
