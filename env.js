@@ -29,11 +29,26 @@ async function GetTips() {
     return Result;
 }
 
+async function GetTags() {
+    const Data = await HTTP.Get("/tags");
+
+    const Result = {
+        tags: []
+    }
+
+    if(Data.status === 200) {
+        Result.tags = Data.data.result;
+    }
+
+    return Result;
+}
+
 const Env = {
     ChangeAPI,
     GetAPI,
     GetTips,
-    GetGateway
+    GetGateway,
+    GetTags
 }
 
 export default Env;
