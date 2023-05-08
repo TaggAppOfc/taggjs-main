@@ -26,9 +26,23 @@ function UsernameAvailable(username) {
     }) 
 }
 
+function DoRegister(user, profile) {
+    return new Promise((resolve, reject) => {
+        HTTP.Post("/register/", {user, profile}).then((response) => {
+            resolve({
+                statusCode: response.status,
+                token: response.data.token
+            });
+        }).catch((err) => {
+            reject(err);
+        })
+    }) 
+}
+
 const Register = {
     EmailAvailable,
-    UsernameAvailable
+    UsernameAvailable,
+    DoRegister
 }
 
 export default Register;
