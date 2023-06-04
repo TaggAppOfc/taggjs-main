@@ -74,6 +74,12 @@ class Client {
         form.append("upload", image);
         return HTTP.Post("/user/avatar", form, this.httpHeaders)
     }
+
+    setBanner(image) {
+        const form = new FormData();
+        form.append("upload", image);
+        return HTTP.Post("/user/banner", form, this.httpHeaders)
+    }
 }
 
 const Tagg = {
