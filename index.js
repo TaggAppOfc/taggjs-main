@@ -1,14 +1,13 @@
 import Auth from './auth.js';
 import Env from './env.js';
+import HTTP from './http.js';
 import Register from './register.js';
 import io from 'socket.io-client';
 
 class Client {
-    constructor(token = '') {
-        this.token = token;
+    constructor() {
         this._ws = io(Env.GetGateway(), {
             auth: {
-                token
             },
             autoConnect: false,
             reconnection: true,
@@ -16,6 +15,21 @@ class Client {
             reconnectionDelay: 1000,
             reconnectionDelayMax: 60000,
         });
+
+        this.user = {};
+
+        this._ws.on("USER", (data) => {
+            this.user = data;
+        });
+    }
+
+    set token(value) {
+        this._token = value;
+        this._ws.auth['token'] = value;
+    }
+
+    get token() {
+        return this._token;
     }
 
     get connected() {
@@ -47,6 +61,18 @@ class Client {
  
             this._ws.connect();
         })
+    }
+
+    get httpHeaders() {
+        return {
+            authorization: this.token
+        }
+    }
+
+    setAvatar(image) {
+        const form = new FormData();
+        form.append("upload", image);
+        return HTTP.Post("/user/avatar", form, this.httpHeaders)
     }
 }
 
