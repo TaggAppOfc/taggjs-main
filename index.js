@@ -16,7 +16,7 @@ class Client {
             reconnectionDelayMax: 60000,
         });
 
-        this.user = {};
+        this.user = null;
 
         this._ws.on("USER", (data) => {
             this.user = data;
@@ -79,6 +79,18 @@ class Client {
         const form = new FormData();
         form.append("upload", image);
         return HTTP.Post("/user/banner", form, this.httpHeaders)
+    }
+
+    followUser(id) {
+        return HTTP.Get(`/user/${id}/follow`, this.httpHeaders);
+    }
+
+    getUserProfile(id) {
+        return HTTP.Get(`/user/${id}/`, this.httpHeaders);
+    }
+
+    getNotifications() {
+        return HTTP.Get(`/user/notifications/`, this.httpHeaders);
     }
 }
 
