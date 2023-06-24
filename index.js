@@ -19,7 +19,13 @@ class Client {
         this.user = null;
 
         this._ws.on("USER", (data) => {
-            this.user = data;
+            if(this.user) {
+                if(this.user.id != data.id) return;
+                this.user = {
+                    ...this.user,
+                    ...data
+                }
+            }else this.user = data;
         });
     }
 
@@ -79,6 +85,10 @@ class Client {
         const form = new FormData();
         form.append("upload", image);
         return HTTP.Post("/user/banner", form, this.httpHeaders)
+    }
+
+    saveProfile(saveData) {
+        return HTTP.Post("/user/profile", saveData, this.httpHeaders)
     }
 
     followUser(id) {
