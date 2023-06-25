@@ -92,11 +92,15 @@ class Client {
     }
 
     followUser(id) {
-        return HTTP.Get(`/user/${id}/follow`, this.httpHeaders);
+        return HTTP.Get(`/user/profile/${id}/follow`, this.httpHeaders);
     }
 
     getUserProfile(id) {
-        return HTTP.Get(`/user/${id}/`, this.httpHeaders);
+        return HTTP.Get(`/user/profile/${id}/`, this.httpHeaders);
+    }
+
+    getFriendList() {
+        return HTTP.Get(`/user/friends/`, this.httpHeaders);
     }
 
     getNotifications() {
