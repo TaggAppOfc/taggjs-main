@@ -28,6 +28,21 @@ class Client {
     });
   }
 
+  set location(value) {
+    this._ws.auth = {
+        ...this._ws.auth,
+        ...value
+    }
+}
+
+get location() {
+    return {
+        os: this._ws.auth['os'],
+        client: this._ws.auth['client'],
+        location: this._ws.auth['location'],
+    }
+}
+
   set token(value) {
     this._token = value;
     this._ws.auth["token"] = value;
