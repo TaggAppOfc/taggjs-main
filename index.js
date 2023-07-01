@@ -120,6 +120,14 @@ get location() {
     return HTTP.Get(`/user/notifications/`, this.httpHeaders);
   }
 
+  getDevices() {
+    return HTTP.Get(`/user/devices/`, this.httpHeaders);
+  }
+
+  removeDevice(idSession) {
+    return HTTP.Post(`/user/devices/${idSession}/delete`, {}, this.httpHeaders);
+  }
+
   createPost(idTag, postContent, attachments = []) {
     const form = new FormData();
     form.append("tagId", idTag);
