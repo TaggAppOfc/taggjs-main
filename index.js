@@ -39,7 +39,6 @@ get location() {
     return {
         os: this._ws.auth['os'],
         client: this._ws.auth['client'],
-        location: this._ws.auth['location'],
     }
 }
 
