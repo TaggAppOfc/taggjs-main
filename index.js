@@ -1,121 +1,136 @@
-import Auth from './auth.js';
-import Env from './env.js';
-import HTTP from './http.js';
-import Register from './register.js';
-import io from 'socket.io-client';
+import Auth from "./auth.js";
+import Env from "./env.js";
+import HTTP from "./http.js";
+import Register from "./register.js";
+import io from "socket.io-client";
 
 class Client {
-    constructor() {
-        this._ws = io(Env.GetGateway(), {
-            auth: {
-            },
-            autoConnect: false,
-            reconnection: true,
-            reconnectionAttempts: Infinity,
-            reconnectionDelay: 1000,
-            reconnectionDelayMax: 60000,
-        });
+  constructor() {
+    this._ws = io(Env.GetGateway(), {
+      auth: {},
+      autoConnect: false,
+      reconnection: true,
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 60000,
+    });
 
-        this.user = null;
+    this.user = null;
 
-        this._ws.on("USER", (data) => {
-            if(this.user) {
-                if(this.user.id != data.id) return;
-                this.user = {
-                    ...this.user,
-                    ...data
-                }
-            }else this.user = data;
-        });
-    }
+    this._ws.on("USER", (data) => {
+      if (this.user) {
+        if (this.user.id != data.id) return;
+        this.user = {
+          ...this.user,
+          ...data,
+        };
+      } else this.user = data;
+    });
+  }
 
-    set token(value) {
-        this._token = value;
-        this._ws.auth['token'] = value;
-    }
+  set token(value) {
+    this._token = value;
+    this._ws.auth["token"] = value;
+  }
 
-    get token() {
-        return this._token;
-    }
+  get token() {
+    return this._token;
+  }
 
-    get connected() {
-        if(!this._ws) return false;
-        return this._ws.connected;
-    }
+  get connected() {
+    if (!this._ws) return false;
+    return this._ws.connected;
+  }
 
-    emit(eventName, ...args) {
-        if(this._ws) this._ws.emit(eventName, ...args);
-    }
+  emit(eventName, ...args) {
+    if (this._ws) this._ws.emit(eventName, ...args);
+  }
 
-    on(eventName, callback) {
-        if(this._ws) this._ws.on(eventName, callback);
-    }
+  on(eventName, callback) {
+    if (this._ws) this._ws.on(eventName, callback);
+  }
 
-    off(eventName, callback) {
-        if(this._ws) this._ws.off(eventName, callback);
-    }
+  off(eventName, callback) {
+    if (this._ws) this._ws.off(eventName, callback);
+  }
 
-    login() {
-        return new Promise((resolve, reject) => {
-            this._ws.once("connect_error", (err) => {
-                reject(err);
-            });
+  login() {
+    return new Promise((resolve, reject) => {
+      this._ws.once("connect_error", (err) => {
+        reject(err);
+      });
 
-            this._ws.once("connect", (data) => {
-                resolve(data);
-            });
- 
-            this._ws.connect();
-        })
-    }
+      this._ws.once("connect", (data) => {
+        resolve(data);
+      });
 
-    get httpHeaders() {
-        return {
-            authorization: this.token
-        }
-    }
+      this._ws.connect();
+    });
+  }
 
-    setAvatar(image) {
-        const form = new FormData();
-        form.append("upload", image);
-        return HTTP.Post("/user/avatar", form, this.httpHeaders)
-    }
+  get httpHeaders() {
+    return {
+      authorization: this.token,
+    };
+  }
 
-    setBanner(image) {
-        const form = new FormData();
-        form.append("upload", image);
-        return HTTP.Post("/user/banner", form, this.httpHeaders)
-    }
+  setAvatar(image) {
+    const form = new FormData();
+    form.append("upload", image);
+    return HTTP.Post("/user/avatar", form, this.httpHeaders);
+  }
 
-    saveProfile(saveData) {
-        return HTTP.Post("/user/profile", saveData, this.httpHeaders)
-    }
+  setBanner(image) {
+    const form = new FormData();
+    form.append("upload", image);
+    return HTTP.Post("/user/banner", form, this.httpHeaders);
+  }
 
-    followUser(id) {
-        return HTTP.Get(`/user/profile/${id}/follow`, this.httpHeaders);
-    }
+  saveProfile(saveData) {
+    return HTTP.Post("/user/profile", saveData, this.httpHeaders);
+  }
 
-    getUserProfile(id) {
-        return HTTP.Get(`/user/profile/${id}/`, this.httpHeaders);
-    }
+  followUser(id) {
+    return HTTP.Get(`/user/profile/${id}/follow`, this.httpHeaders);
+  }
 
-    getFriendList() {
-        return HTTP.Get(`/user/friends/`, this.httpHeaders);
-    }
+  getUserProfile(id) {
+    return HTTP.Get(`/user/profile/${id}/`, this.httpHeaders);
+  }
 
-    getNotifications() {
-        return HTTP.Get(`/user/notifications/`, this.httpHeaders);
-    }
+  getFriendList() {
+    return HTTP.Get(`/user/friends/`, this.httpHeaders);
+  }
+
+  getNotifications() {
+    return HTTP.Get(`/user/notifications/`, this.httpHeaders);
+  }
+
+  createPost(idTag, postContent, attachments = []) {
+    const form = new FormData();
+    form.append("tagId", idTag);
+    form.append("content", postContent);
+    form.append("files", attachments);
+    return HTTP.Post("/post/create", form, this.httpHeaders);
+  }
+
+  clearNotifications() {
+    return HTTP.Post("/notifications/clear", {}, this.httpHeaders);
+  }
+
+  clearNotification(idNotification) {
+    return HTTP.Post("/notifications/clear", {idNotification}, this.httpHeaders);
+  }
 }
 
 const Tagg = {
-    Client,
-    API: {
-        Login: Auth.LoginUser,
-        GetTips: Env.GetTips,
-        GetTags: Env.GetTags,
-        Register
-    }
-}
+  Client,
+  API: {
+    Login: Auth.LoginUser,
+    GetTips: Env.GetTips,
+    GetTags: Env.GetTags,
+    Register,
+  },
+};
 
 export default Tagg;
