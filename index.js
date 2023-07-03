@@ -143,6 +143,10 @@ get location() {
   clearNotification(idNotification) {
     return HTTP.Post("/notifications/clear", {idNotification}, this.httpHeaders);
   }
+
+  getTag(idTag) {
+    return HTTP.Get("/tags/" + idTag, this.httpHeaders);
+  }
 }
 
 const Tagg = {
