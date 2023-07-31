@@ -30,17 +30,17 @@ class Client {
 
   set location(value) {
     this._ws.auth = {
-        ...this._ws.auth,
-        ...value
+      ...this._ws.auth,
+      ...value
     }
-}
+  }
 
-get location() {
+  get location() {
     return {
-        os: this._ws.auth['os'],
-        client: this._ws.auth['client'],
+      os: this._ws.auth['os'],
+      client: this._ws.auth['client'],
     }
-}
+  }
 
   set token(value) {
     this._token = value;
@@ -133,7 +133,18 @@ get location() {
     form.append("tagId", idTag);
     form.append("content", postContent);
     form.append("files", attachments);
-    return HTTP.Post("/post/create", form, this.httpHeaders);
+    return HTTP.Post("/post/create", form, {
+      ...this.httpHeaders,
+      "Content-Type": "multipart/form-data"
+    });
+  }
+
+  likePost(idPost) {
+    return HTTP.Post("/post/" + idPost + "/like", {}, this.httpHeaders);
+  }
+
+  deletePost(idPost) {
+    return HTTP.Delete("/post/" + idPost, this.httpHeaders);
   }
 
   clearNotifications() {
@@ -141,11 +152,15 @@ get location() {
   }
 
   clearNotification(idNotification) {
-    return HTTP.Post("/notifications/clear", {idNotification}, this.httpHeaders);
+    return HTTP.Post("/notifications/clear", { idNotification }, this.httpHeaders);
   }
 
   getTag(idTag) {
     return HTTP.Get("/tags/" + idTag, this.httpHeaders);
+  }
+
+  getUserPosts(username, skip = 0) {
+    return HTTP.Post("/user/profile/" + username + "/posts", { skip }, this.httpHeaders);
   }
 }
 

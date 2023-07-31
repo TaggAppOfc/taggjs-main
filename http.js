@@ -21,9 +21,19 @@ function Post(path = '/', data ={}, headers ={}) {
     return Caller.post(path, data);
 }
 
+function Delete(path = '', headers = {}) {
+    const Caller = axios.create({
+        baseURL: Env.GetAPI(),
+        headers
+    });
+
+    return Caller.delete(path);
+}
+
 const HTTP = {
     Get,
-    Post
+    Post,
+    Delete
 }
 
 export default HTTP;
