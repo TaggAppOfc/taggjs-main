@@ -132,7 +132,11 @@ class Client {
     const form = new FormData();
     form.append("tagId", idTag);
     form.append("content", postContent);
-    form.append("files", attachments);
+    
+    for(let i = 0; i < attachments.length; i++) {
+      form.append("files", attachments[i]);
+    }
+
     return HTTP.Post("/post/create", form, {
       ...this.httpHeaders,
       "Content-Type": "multipart/form-data"
