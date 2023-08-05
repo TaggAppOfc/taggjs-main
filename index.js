@@ -143,6 +143,18 @@ class Client {
     });
   }
 
+  getFollowingPosts(skip) {
+    return HTTP.Post("/post/following", {skip}, this.httpHeaders);
+  }
+
+  setExpoNotificationToken(token) {
+    return HTTP.Post("/notifications/token/expo", {token}, this.httpHeaders);
+  }
+
+  setWebNotificationToken(token) {
+    return HTTP.Post("/notifications/token/web", {token}, this.httpHeaders);
+  }
+
   likePost(idPost) {
     return HTTP.Post("/post/" + idPost + "/like", {}, this.httpHeaders);
   }
