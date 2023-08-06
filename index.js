@@ -128,31 +128,50 @@ class Client {
     return HTTP.Post(`/user/devices/${idSession}/delete`, {}, this.httpHeaders);
   }
 
-  createPost(idTag, postContent, attachments = []) {
+  createPost(idTag, postContent, attachments = [], onUploadProgress) {
     const form = new FormData();
     form.append("tagId", idTag);
     form.append("content", postContent);
-    
-    for(let i = 0; i < attachments.length; i++) {
+
+    for (let i = 0; i < attachments.length; i++) {
       form.append("files", attachments[i]);
     }
 
     return HTTP.Post("/post/create", form, {
       ...this.httpHeaders,
-      "Content-Type": "multipart/form-data"
+      "Content-Type": "multipart/form-data",
+
+    }, {
+      onUploadProgress
     });
   }
 
+  createRoom(roomName, members) {
+    return HTTP.Post("/rooms/create", { roomName, members }, this.httpHeaders);
+  }
+
+  acceptRoomRequest(idRoom) {
+    return HTTP.Post("/rooms/" + idRoom + "/accept", {}, this.httpHeaders);
+  }
+
+  rejectRoomRequest(idRoom) {
+    return HTTP.Post("/rooms/" + idRoom + "/accept", {}, this.httpHeaders);
+  }
+
+  getRooms() {
+    return HTTP.Get("/rooms", this.httpHeaders);
+  }
+
   getFollowingPosts(skip) {
-    return HTTP.Post("/post/following", {skip}, this.httpHeaders);
+    return HTTP.Post("/post/following", { skip }, this.httpHeaders);
   }
 
   setExpoNotificationToken(token) {
-    return HTTP.Post("/notifications/token/expo", {token}, this.httpHeaders);
+    return HTTP.Post("/notifications/token/expo", { token }, this.httpHeaders);
   }
 
   setWebNotificationToken(token) {
-    return HTTP.Post("/notifications/token/web", {token}, this.httpHeaders);
+    return HTTP.Post("/notifications/token/web", { token }, this.httpHeaders);
   }
 
   likePost(idPost) {

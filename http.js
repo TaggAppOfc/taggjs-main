@@ -2,8 +2,6 @@ import axios from 'axios';
 import Env from './env.js';
 
 function Get(path = '/', headers ={}) {
-    console.log(axios);
-
     const Caller = axios.create({
         baseURL: Env.GetAPI(),
         headers
@@ -12,10 +10,11 @@ function Get(path = '/', headers ={}) {
     return Caller.get(path);
 }
 
-function Post(path = '/', data ={}, headers ={}) {
+function Post(path = '/', data ={}, headers ={}, config ={}) {
     const Caller = axios.create({
         baseURL: Env.GetAPI(),
-        headers
+        headers,
+        ...config
     });
 
     return Caller.post(path, data);
