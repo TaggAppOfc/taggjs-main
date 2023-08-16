@@ -94,6 +94,35 @@ class Client {
     return HTTP.Post("/user/avatar", form, this.httpHeaders);
   }
 
+  createConversation(idUser) {
+    return HTTP.Post("/conversations/create/" + idUser, {}, this.httpHeaders);
+  }
+
+  getConversation(id) {
+    return HTTP.Get("/conversations/" + id, this.httpHeaders);
+  }
+
+  sendConversationTyping(idConversation) { 
+    return HTTP.Post("/conversations/" + idConversation + "/typing", {}, {
+      ...this.httpHeaders,
+    });
+  }
+
+  sendConversationMessage(idConversation, messageContent, attachments = []) {
+    const form = new FormData();
+    form.append("content", messageContent);
+
+    for (let i = 0; i < attachments.length; i++) {
+      form.append("files", attachments[i]);
+    }
+
+    return HTTP.Post("/conversations/" + idConversation + "/messages", form, {
+      ...this.httpHeaders,
+      "Content-Type": "multipart/form-data",
+
+    });
+  }
+
   setBanner(image) {
     const form = new FormData();
     form.append("upload", image);
