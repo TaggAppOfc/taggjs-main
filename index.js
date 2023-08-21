@@ -108,6 +108,14 @@ class Client {
     });
   }
 
+  getUserRecommendations(skip = 0, limit = 10) {
+    return HTTP.Post("/user/recommendations", {skip, limit}, this.httpHeaders);
+  }
+
+  getPostComments(idPost, skip = 0, limit = 5) {
+    return HTTP.Post("/post/" + idPost + "/comments", {skip, limit}, this.httpHeaders);
+  }
+
   sendConversationMessage(idConversation, messageContent, attachments = []) {
     const form = new FormData();
     form.append("content", messageContent);
