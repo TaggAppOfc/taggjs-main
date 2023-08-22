@@ -108,12 +108,22 @@ class Client {
     });
   }
 
+  likePostComment(idPost, idComment) {
+    return HTTP.Post("/post/" + idPost + "/comment/" + idComment + "/like", {}, this.httpHeaders);
+  }
+ 
   getUserRecommendations(skip = 0, limit = 10) {
     return HTTP.Post("/user/recommendations", {skip, limit}, this.httpHeaders);
   }
 
   getPostComments(idPost, skip = 0, limit = 5) {
     return HTTP.Post("/post/" + idPost + "/comments", {skip, limit}, this.httpHeaders);
+  }
+
+  postComment(idPost, textContent) {
+    return HTTP.Post("/post/" + idPost + "/comment", {text: textContent}, {
+      ... this.httpHeaders,
+    });
   }
 
   sendConversationMessage(idConversation, messageContent, attachments = []) {
