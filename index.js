@@ -108,6 +108,23 @@ class Client {
     });
   }
 
+  getConversationMessages(idChat, skip = 0, limit = 50) {
+    const query = new URLSearchParams();
+
+    query.append("skip", skip);
+    query.append("limit", limit)
+
+    return HTTP.Get("/conversations/" + idChat + "/messages?" + query.toString(), this.httpHeaders);
+  }
+
+  getConversations(pending = false) {
+    const query = new URLSearchParams();
+
+    query.append("pending", pending);
+
+    return HTTP.Get("/conversations?" + query.toString(), this.httpHeaders);
+  }
+
   likePostComment(idPost, idComment) {
     return HTTP.Post("/post/" + idPost + "/comment/" + idComment + "/like", {}, this.httpHeaders);
   }
@@ -127,17 +144,9 @@ class Client {
   }
 
   sendConversationMessage(idConversation, messageContent, attachments = []) {
-    const form = new FormData();
-    form.append("content", messageContent);
 
-    for (let i = 0; i < attachments.length; i++) {
-      form.append("files", attachments[i]);
-    }
-
-    return HTTP.Post("/conversations/" + idConversation + "/messages", form, {
+    return HTTP.Post("/conversations/" + idConversation + "/messages", {content: messageContent}, {
       ...this.httpHeaders,
-      "Content-Type": "multipart/form-data",
-
     });
   }
 
@@ -197,12 +206,24 @@ class Client {
     return HTTP.Post("/rooms/create", { roomName, members }, this.httpHeaders);
   }
 
+  acceptConversation(idConversation) {
+    return HTTP.Post("/conversations/" + idConversation + "/accept", {}, this.httpHeaders);
+  }
+
+  cancelConversationRequest(idConversation) {
+    return HTTP.Post("/conversations/" + idConversation + "/cancel", {}, this.httpHeaders);
+  }
+
+  declineConversation(idConversation) {
+    return HTTP.Post("/conversations/" + idConversation + "/decline", {}, this.httpHeaders);
+  }
+
   acceptRoomRequest(idRoom) {
     return HTTP.Post("/rooms/" + idRoom + "/accept", {}, this.httpHeaders);
   }
 
   rejectRoomRequest(idRoom) {
-    return HTTP.Post("/rooms/" + idRoom + "/accept", {}, this.httpHeaders);
+    return HTTP.Post("/rooms/" + idRoom + "/reject", {}, this.httpHeaders);
   }
 
   getRooms() {

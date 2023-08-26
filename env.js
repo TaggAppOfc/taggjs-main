@@ -7,6 +7,10 @@ function ChangeAPI(url = '') {
     CURRENT_API = url;
 }
 
+function ChangeGateway(url = '') {
+    CURRENT_GATEWAY = url;
+}
+
 function GetAPI() {
     return CURRENT_API;
 }
@@ -48,7 +52,8 @@ const Env = {
     GetAPI,
     GetTips,
     GetGateway,
-    GetTags
+    GetTags,
+    ChangeGateway
 }
 
 export default Env;
