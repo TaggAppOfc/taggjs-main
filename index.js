@@ -266,6 +266,18 @@ class Client {
     return HTTP.Get("/tags/" + idTag, this.httpHeaders);
   }
 
+  search(query) {
+    return HTTP.Post("/search", { query }, this.httpHeaders);
+  }
+
+  getTrendingTags() {
+    return HTTP.Get("/tags/trending", this.httpHeaders);
+  }
+
+  getPostsFromTag(idTag, skip = 0) {
+    return HTTP.Post("/post/tag/" + idTag, { skip }, this.httpHeaders);
+  }
+
   getUserPosts(username, skip = 0) {
     return HTTP.Post("/user/profile/" + username + "/posts", { skip }, this.httpHeaders);
   }
