@@ -180,6 +180,10 @@ class Client {
     return HTTP.Get(`/user/devices/`, this.httpHeaders);
   }
 
+  getTrendingTopics() {
+    return HTTP.Get(`/trending`, this.httpHeaders);
+  }
+
   removeDevice(idSession) {
     return HTTP.Post(`/user/devices/${idSession}/delete`, {}, this.httpHeaders);
   }
