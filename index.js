@@ -88,6 +88,10 @@ class Client {
     };
   }
 
+  logout() {
+    return HTTP.Post("/user/logout", {}, this.httpHeaders);
+  }
+
   setAvatar(image) {
     const form = new FormData();
     form.append("upload", image);
