@@ -68,6 +68,14 @@ class Client {
     if (this._ws) this._ws.off(eventName, callback);
   }
 
+  editAccount(data) {
+    return HTTP.Post("/user/account", data, this.httpHeaders);
+  }
+
+  changePassword({ oldPassword, newPassword }) {
+    return HTTP.Post("/user/password", {oldPassword, newPassword}, this.httpHeaders);
+  }
+
   login() {
     return new Promise((resolve, reject) => {
       this._ws.once("connect_error", (err) => {
@@ -240,6 +248,10 @@ class Client {
 
   getFollowingPosts(skip) {
     return HTTP.Post("/post/following", { skip }, this.httpHeaders);
+  }
+
+  getExplorePosts(skip) {
+    return HTTP.Post("/post/explore", { skip }, this.httpHeaders);
   }
 
   setExpoNotificationToken(token) {
