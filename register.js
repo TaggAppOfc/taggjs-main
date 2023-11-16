@@ -26,9 +26,16 @@ function UsernameAvailable(username) {
     }) 
 }
 
-function DoRegister(user, profile) {
+function DoRegister(user, profile, avatar, banner) {
     return new Promise((resolve, reject) => {
-        HTTP.Post("/register/", {user, profile}).then((response) => {
+        const form = new FormData();
+
+        form.append("user", JSON.stringify(user));
+        form.append("profile", JSON.stringify(profile));
+        form.append("avatar", avatar);
+        form.append("banner", banner)
+
+        HTTP.Post("/register/", form).then((response) => {
             resolve({
                 statusCode: response.status,
                 token: response.data.token
