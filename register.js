@@ -10,7 +10,7 @@ function EmailAvailable(email) {
         }).catch((err) => {
             reject(err);
         })
-    }) 
+    })
 }
 
 function UsernameAvailable(username) {
@@ -23,7 +23,7 @@ function UsernameAvailable(username) {
         }).catch((err) => {
             reject(err);
         })
-    }) 
+    })
 }
 
 function DoRegister(user, profile, avatar, banner) {
@@ -35,7 +35,9 @@ function DoRegister(user, profile, avatar, banner) {
         form.append("avatar", avatar);
         form.append("banner", banner)
 
-        HTTP.Post("/register/", form).then((response) => {
+        HTTP.Post("/register/", form, {
+            "Content-Type": "multipart/form-data"
+        }).then((response) => {
             resolve({
                 statusCode: response.status,
                 token: response.data.token
@@ -43,7 +45,7 @@ function DoRegister(user, profile, avatar, banner) {
         }).catch((err) => {
             reject(err);
         })
-    }) 
+    })
 }
 
 const Register = {
