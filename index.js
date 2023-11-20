@@ -200,6 +200,14 @@ class Client {
     return HTTP.Post(`/user/devices/${idSession}/delete`, {}, this.httpHeaders);
   }
 
+  savePost(idPost) {
+    return HTTP.Post(`/post/${idPost}/save`, {}, this.httpHeaders);
+  }
+
+  getSavedPosts(skip = 0) {
+    return HTTP.Get(`/post/saved?skip=${skip}`, this.httpHeaders);
+  }
+
   createPost(idTag, postContent, attachments = [], onUploadProgress) {
     const form = new FormData();
     form.append("tagId", idTag);
