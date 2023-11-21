@@ -20,6 +20,16 @@ function Post(path = '/', data ={}, headers ={}, config ={}) {
     return Caller.post(path, data);
 }
 
+function PostForm(path = '/', data ={}, headers ={}, config ={}) {
+    const Caller = axios.create({
+        baseURL: Env.GetAPI(),
+        headers,
+        ...config
+    });
+
+    return Caller.postForm(path, data);
+}
+
 function Delete(path = '', headers = {}) {
     const Caller = axios.create({
         baseURL: Env.GetAPI(),
@@ -32,7 +42,8 @@ function Delete(path = '', headers = {}) {
 const HTTP = {
     Get,
     Post,
-    Delete
+    Delete,
+    PostForm
 }
 
 export default HTTP;
