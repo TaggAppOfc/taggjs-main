@@ -93,6 +93,7 @@ class Client {
   get httpHeaders() {
     return {
       authorization: this.token,
+      accept: "application/json",
     };
   }
 
@@ -100,16 +101,10 @@ class Client {
     return HTTP.Post("/user/logout", {}, this.httpHeaders);
   }
 
-  get uploadHeaders() {
-    return {
-      ...this.httpHeaders,
-    };
-  }
-
   setAvatar(image) {
     const form = new FormData();
     form.append("upload", image);
-    return HTTP.PostForm("/user/avatar", form, this.uploadHeaders);
+    return HTTP.PostForm("/user/avatar", form, this.httpHeaders);
   }
 
   createConversation(idUser) {
@@ -171,7 +166,7 @@ class Client {
   setBanner(image) {
     const form = new FormData();
     form.append("upload", image);
-    return HTTP.PostForm("/user/banner", form, this.uploadHeaders);
+    return HTTP.PostForm("/user/banner", form, this.httpHeaders);
   }
 
   saveProfile(saveData) {
@@ -223,7 +218,7 @@ class Client {
       form.append("files", attachments[i]);
     }
 
-    return HTTP.PostForm("/post/create", form, this.uploadHeaders, {
+    return HTTP.PostForm("/post/create", form, this.httpHeaders, {
       onUploadProgress,
     });
   }
